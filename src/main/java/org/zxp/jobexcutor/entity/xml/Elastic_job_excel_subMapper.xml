@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.zxp.jobexcutor.mapper.Elastic_job_excel_subMapper">
+  <resultMap id="BaseResultMap" type="org.zxp.jobexcutor.entity.Elastic_job_excel_sub">
+    <id column="UUID" jdbcType="VARCHAR" property="uuid" />
+    <id column="SERIALNO" jdbcType="DECIMAL" property="serialno" />
+    <result column="EXCELSPLITNAME" jdbcType="VARCHAR" property="excelsplitname" />
+    <result column="EXCELSPLITPATH" jdbcType="VARCHAR" property="excelsplitpath" />
+    <result column="STATUS" jdbcType="VARCHAR" property="status" />
+    <result column="ERRORINFO" jdbcType="VARCHAR" property="errorinfo" />
+    <result column="CHECKCODE" jdbcType="VARCHAR" property="checkcode" />
+    <result column="DEALBEGINTIME" jdbcType="VARCHAR" property="dealbegintime" />
+    <result column="DEALENDTIME" jdbcType="VARCHAR" property="dealendtime" />
+    <result column="FLAG" jdbcType="VARCHAR" property="flag" />
+    <result column="TOTAL" jdbcType="DECIMAL" property="total" />
+    <result column="INPUTDATE" jdbcType="DATE" property="inputdate" />
+    <result column="UPDATEDATE" jdbcType="DATE" property="updatedate" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    UUID, SERIALNO, EXCELSPLITNAME, EXCELSPLITPATH, STATUS, ERRORINFO, CHECKCODE, DEALBEGINTIME,
+    DEALENDTIME, FLAG, TOTAL, INPUTDATE, UPDATEDATE
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="org.zxp.jobexcutor.entity.Elastic_job_excel_subKey" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from ELASTIC_JOB_EXCEL_SUB
+    where UUID = #{uuid,jdbcType=VARCHAR}
+      and SERIALNO = #{serialno,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="org.zxp.jobexcutor.entity.Elastic_job_excel_subKey">
+    delete from ELASTIC_JOB_EXCEL_SUB
+    where UUID = #{uuid,jdbcType=VARCHAR}
+      and SERIALNO = #{serialno,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="org.zxp.jobexcutor.entity.Elastic_job_excel_sub">
+    insert into ELASTIC_JOB_EXCEL_SUB (UUID, SERIALNO, EXCELSPLITNAME, 
+      EXCELSPLITPATH, STATUS, ERRORINFO, CHECKCODE,
+      DEALBEGINTIME, DEALENDTIME, FLAG, 
+      TOTAL, INPUTDATE, UPDATEDATE
+      )
+    values (#{uuid,jdbcType=VARCHAR}, #{serialno,jdbcType=DECIMAL}, #{excelsplitname,jdbcType=VARCHAR}, 
+      #{excelsplitpath,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{errorinfo,jdbcType=VARCHAR}, #{checkcode,jdbcType=VARCHAR},
+      #{dealbegintime,jdbcType=VARCHAR}, #{dealendtime,jdbcType=VARCHAR}, #{flag,jdbcType=VARCHAR}, 
+      #{total,jdbcType=DECIMAL}, #{inputdate,jdbcType=DATE}, #{updatedate}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="org.zxp.jobexcutor.entity.Elastic_job_excel_sub">
+    insert into ELASTIC_JOB_EXCEL_SUB
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="uuid != null">
+        UUID,
+      </if>
+      <if test="serialno != null">
+        SERIALNO,
+      </if>
+      <if test="excelsplitname != null">
+        EXCELSPLITNAME,
+      </if>
+      <if test="excelsplitpath != null">
+        EXCELSPLITPATH,
+      </if>
+      <if test="status != null">
+        STATUS,
+      </if>
+      <if test="errorinfo != null">
+        ERRORINFO,
+      </if>
+      <if test="checkcode != null">
+        CHECKCODE,
+      </if>
+      <if test="dealbegintime != null">
+        DEALBEGINTIME,
+      </if>
+      <if test="dealendtime != null">
+        DEALENDTIME,
+      </if>
+      <if test="flag != null">
+        FLAG,
+      </if>
+      <if test="total != null">
+        TOTAL,
+      </if>
+      <if test="inputdate != null">
+        INPUTDATE,
+      </if>
+      <if test="updatedate != null">
+        UPDATEDATE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="uuid != null">
+        #{uuid,jdbcType=VARCHAR},
+      </if>
+      <if test="serialno != null">
+        #{serialno,jdbcType=DECIMAL},
+      </if>
+      <if test="excelsplitname != null">
+        #{excelsplitname,jdbcType=VARCHAR},
+      </if>
+      <if test="excelsplitpath != null">
+        #{excelsplitpath,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="errorinfo != null">
+        #{errorinfo,jdbcType=VARCHAR},
+      </if>
+      <if test="checkcode != null">
+        #{checkcode,jdbcType=VARCHAR},
+      </if>
+      <if test="dealbegintime != null">
+        #{dealbegintime,jdbcType=VARCHAR},
+      </if>
+      <if test="dealendtime != null">
+        #{dealendtime,jdbcType=VARCHAR},
+      </if>
+      <if test="flag != null">
+        #{flag,jdbcType=VARCHAR},
+      </if>
+      <if test="total != null">
+        #{total,jdbcType=DECIMAL},
+      </if>
+      <if test="inputdate != null">
+        #{inputdate,jdbcType=DATE},
+      </if>
+      <if test="updatedate != null">
+        #{updatedate},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="org.zxp.jobexcutor.entity.Elastic_job_excel_sub">
+    update ELASTIC_JOB_EXCEL_SUB
+    <set>
+      <if test="excelsplitname != null">
+        EXCELSPLITNAME = #{excelsplitname,jdbcType=VARCHAR},
+      </if>
+      <if test="excelsplitpath != null">
+        EXCELSPLITPATH = #{excelsplitpath,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        STATUS = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="errorinfo != null">
+        ERRORINFO = #{errorinfo,jdbcType=VARCHAR},
+      </if>
+      <if test="checkcode != null">
+        CHECKCODE = #{checkcode,jdbcType=VARCHAR},
+      </if>
+      <if test="dealbegintime != null">
+        DEALBEGINTIME = #{dealbegintime,jdbcType=VARCHAR},
+      </if>
+      <if test="dealendtime != null">
+        DEALENDTIME = #{dealendtime,jdbcType=VARCHAR},
+      </if>
+      <if test="flag != null">
+        FLAG = #{flag,jdbcType=VARCHAR},
+      </if>
+      <if test="total != null">
+        TOTAL = #{total,jdbcType=DECIMAL},
+      </if>
+      <if test="inputdate != null">
+        INPUTDATE = #{inputdate,jdbcType=DATE},
+      </if>
+      <if test="updatedate != null">
+        UPDATEDATE = #{updatedate},
+      </if>
+    </set>
+    where UUID = #{uuid,jdbcType=VARCHAR}
+      and SERIALNO = #{serialno,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.zxp.jobexcutor.entity.Elastic_job_excel_sub">
+    update ELASTIC_JOB_EXCEL_SUB
+    set EXCELSPLITNAME = #{excelsplitname,jdbcType=VARCHAR},
+      EXCELSPLITPATH = #{excelsplitpath,jdbcType=VARCHAR},
+      STATUS = #{status,jdbcType=VARCHAR},
+      ERRORINFO = #{errorinfo,jdbcType=VARCHAR},
+      CHECKCODE = #{checkcode,jdbcType=VARCHAR},
+      DEALBEGINTIME = #{dealbegintime,jdbcType=VARCHAR},
+      DEALENDTIME = #{dealendtime,jdbcType=VARCHAR},
+      FLAG = #{flag,jdbcType=VARCHAR},
+      TOTAL = #{total,jdbcType=DECIMAL},
+      INPUTDATE = #{inputdate,jdbcType=DATE},
+      UPDATEDATE = #{updatedate}
+    where UUID = #{uuid,jdbcType=VARCHAR}
+      and SERIALNO = #{serialno,jdbcType=DECIMAL}
+  </update>
+  <select id="selectByUuid" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from ELASTIC_JOB_EXCEL_SUB
+    where UUID = #{uuid,jdbcType=VARCHAR}
+  </select>
+</mapper>

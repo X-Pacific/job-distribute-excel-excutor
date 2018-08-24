@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.zxp.jobexcutor.mapper.PrpCMainDemoMapper" >
+  <resultMap id="BaseResultMap" type="org.zxp.jobexcutor.entity.PrpCMainDemo" >
+    <id column="POLICYNO" property="policyno" jdbcType="VARCHAR" />
+    <result column="CLASSCODE" property="classcode" jdbcType="VARCHAR" />
+    <result column="RISKCODE" property="riskcode" jdbcType="VARCHAR" />
+    <result column="PROPOSALNO" property="proposalno" jdbcType="VARCHAR" />
+    <result column="CONTRACTNO" property="contractno" jdbcType="VARCHAR" />
+    <result column="POLICYSORT" property="policysort" jdbcType="VARCHAR" />
+    <result column="PRINTNO" property="printno" jdbcType="VARCHAR" />
+    <result column="BUSINESSNATURE" property="businessnature" jdbcType="VARCHAR" />
+    <result column="LANGUAGE" property="language" jdbcType="VARCHAR" />
+    <result column="POLICYTYPE" property="policytype" jdbcType="VARCHAR" />
+    <result column="APPLICODE" property="applicode" jdbcType="VARCHAR" />
+    <result column="APPLINAME" property="appliname" jdbcType="VARCHAR" />
+    <result column="APPLIADDRESS" property="appliaddress" jdbcType="VARCHAR" />
+    <result column="INSUREDCODE" property="insuredcode" jdbcType="VARCHAR" />
+    <result column="INSUREDNAME" property="insuredname" jdbcType="VARCHAR" />
+    <result column="INSUREDADDRESS" property="insuredaddress" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    POLICYNO, CLASSCODE, RISKCODE, PROPOSALNO, CONTRACTNO, POLICYSORT, PRINTNO, BUSINESSNATURE, 
+    LANGUAGE, POLICYTYPE, APPLICODE, APPLINAME, APPLIADDRESS, INSUREDCODE, INSUREDNAME, 
+    INSUREDADDRESS
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from PRPCMAINDEMO
+    where POLICYNO = #{policyno,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from PRPCMAINDEMO
+    where POLICYNO = #{policyno,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="org.zxp.jobexcutor.entity.PrpCMainDemo" >
+    insert into PRPCMAINDEMO (POLICYNO, CLASSCODE, RISKCODE, 
+      PROPOSALNO, CONTRACTNO, POLICYSORT, 
+      PRINTNO, BUSINESSNATURE, LANGUAGE, 
+      POLICYTYPE, APPLICODE, APPLINAME, 
+      APPLIADDRESS, INSUREDCODE, INSUREDNAME, 
+      INSUREDADDRESS)
+    values (#{policyno,jdbcType=VARCHAR}, #{classcode,jdbcType=VARCHAR}, #{riskcode,jdbcType=VARCHAR}, 
+      #{proposalno,jdbcType=VARCHAR}, #{contractno,jdbcType=VARCHAR}, #{policysort,jdbcType=VARCHAR}, 
+      #{printno,jdbcType=VARCHAR}, #{businessnature,jdbcType=VARCHAR}, #{language,jdbcType=VARCHAR}, 
+      #{policytype,jdbcType=VARCHAR}, #{applicode,jdbcType=VARCHAR}, #{appliname,jdbcType=VARCHAR}, 
+      #{appliaddress,jdbcType=VARCHAR}, #{insuredcode,jdbcType=VARCHAR}, #{insuredname,jdbcType=VARCHAR}, 
+      #{insuredaddress,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="org.zxp.jobexcutor.entity.PrpCMainDemo" >
+    insert into PRPCMAINDEMO
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="policyno != null" >
+        POLICYNO,
+      </if>
+      <if test="classcode != null" >
+        CLASSCODE,
+      </if>
+      <if test="riskcode != null" >
+        RISKCODE,
+      </if>
+      <if test="proposalno != null" >
+        PROPOSALNO,
+      </if>
+      <if test="contractno != null" >
+        CONTRACTNO,
+      </if>
+      <if test="policysort != null" >
+        POLICYSORT,
+      </if>
+      <if test="printno != null" >
+        PRINTNO,
+      </if>
+      <if test="businessnature != null" >
+        BUSINESSNATURE,
+      </if>
+      <if test="language != null" >
+        LANGUAGE,
+      </if>
+      <if test="policytype != null" >
+        POLICYTYPE,
+      </if>
+      <if test="applicode != null" >
+        APPLICODE,
+      </if>
+      <if test="appliname != null" >
+        APPLINAME,
+      </if>
+      <if test="appliaddress != null" >
+        APPLIADDRESS,
+      </if>
+      <if test="insuredcode != null" >
+        INSUREDCODE,
+      </if>
+      <if test="insuredname != null" >
+        INSUREDNAME,
+      </if>
+      <if test="insuredaddress != null" >
+        INSUREDADDRESS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="policyno != null" >
+        #{policyno,jdbcType=VARCHAR},
+      </if>
+      <if test="classcode != null" >
+        #{classcode,jdbcType=VARCHAR},
+      </if>
+      <if test="riskcode != null" >
+        #{riskcode,jdbcType=VARCHAR},
+      </if>
+      <if test="proposalno != null" >
+        #{proposalno,jdbcType=VARCHAR},
+      </if>
+      <if test="contractno != null" >
+        #{contractno,jdbcType=VARCHAR},
+      </if>
+      <if test="policysort != null" >
+        #{policysort,jdbcType=VARCHAR},
+      </if>
+      <if test="printno != null" >
+        #{printno,jdbcType=VARCHAR},
+      </if>
+      <if test="businessnature != null" >
+        #{businessnature,jdbcType=VARCHAR},
+      </if>
+      <if test="language != null" >
+        #{language,jdbcType=VARCHAR},
+      </if>
+      <if test="policytype != null" >
+        #{policytype,jdbcType=VARCHAR},
+      </if>
+      <if test="applicode != null" >
+        #{applicode,jdbcType=VARCHAR},
+      </if>
+      <if test="appliname != null" >
+        #{appliname,jdbcType=VARCHAR},
+      </if>
+      <if test="appliaddress != null" >
+        #{appliaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="insuredcode != null" >
+        #{insuredcode,jdbcType=VARCHAR},
+      </if>
+      <if test="insuredname != null" >
+        #{insuredname,jdbcType=VARCHAR},
+      </if>
+      <if test="insuredaddress != null" >
+        #{insuredaddress,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="org.zxp.jobexcutor.entity.PrpCMainDemo" >
+    update PRPCMAINDEMO
+    <set >
+      <if test="classcode != null" >
+        CLASSCODE = #{classcode,jdbcType=VARCHAR},
+      </if>
+      <if test="riskcode != null" >
+        RISKCODE = #{riskcode,jdbcType=VARCHAR},
+      </if>
+      <if test="proposalno != null" >
+        PROPOSALNO = #{proposalno,jdbcType=VARCHAR},
+      </if>
+      <if test="contractno != null" >
+        CONTRACTNO = #{contractno,jdbcType=VARCHAR},
+      </if>
+      <if test="policysort != null" >
+        POLICYSORT = #{policysort,jdbcType=VARCHAR},
+      </if>
+      <if test="printno != null" >
+        PRINTNO = #{printno,jdbcType=VARCHAR},
+      </if>
+      <if test="businessnature != null" >
+        BUSINESSNATURE = #{businessnature,jdbcType=VARCHAR},
+      </if>
+      <if test="language != null" >
+        LANGUAGE = #{language,jdbcType=VARCHAR},
+      </if>
+      <if test="policytype != null" >
+        POLICYTYPE = #{policytype,jdbcType=VARCHAR},
+      </if>
+      <if test="applicode != null" >
+        APPLICODE = #{applicode,jdbcType=VARCHAR},
+      </if>
+      <if test="appliname != null" >
+        APPLINAME = #{appliname,jdbcType=VARCHAR},
+      </if>
+      <if test="appliaddress != null" >
+        APPLIADDRESS = #{appliaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="insuredcode != null" >
+        INSUREDCODE = #{insuredcode,jdbcType=VARCHAR},
+      </if>
+      <if test="insuredname != null" >
+        INSUREDNAME = #{insuredname,jdbcType=VARCHAR},
+      </if>
+      <if test="insuredaddress != null" >
+        INSUREDADDRESS = #{insuredaddress,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where POLICYNO = #{policyno,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.zxp.jobexcutor.entity.PrpCMainDemo" >
+    update PRPCMAINDEMO
+    set CLASSCODE = #{classcode,jdbcType=VARCHAR},
+      RISKCODE = #{riskcode,jdbcType=VARCHAR},
+      PROPOSALNO = #{proposalno,jdbcType=VARCHAR},
+      CONTRACTNO = #{contractno,jdbcType=VARCHAR},
+      POLICYSORT = #{policysort,jdbcType=VARCHAR},
+      PRINTNO = #{printno,jdbcType=VARCHAR},
+      BUSINESSNATURE = #{businessnature,jdbcType=VARCHAR},
+      LANGUAGE = #{language,jdbcType=VARCHAR},
+      POLICYTYPE = #{policytype,jdbcType=VARCHAR},
+      APPLICODE = #{applicode,jdbcType=VARCHAR},
+      APPLINAME = #{appliname,jdbcType=VARCHAR},
+      APPLIADDRESS = #{appliaddress,jdbcType=VARCHAR},
+      INSUREDCODE = #{insuredcode,jdbcType=VARCHAR},
+      INSUREDNAME = #{insuredname,jdbcType=VARCHAR},
+      INSUREDADDRESS = #{insuredaddress,jdbcType=VARCHAR}
+    where POLICYNO = #{policyno,jdbcType=VARCHAR}
+  </update>
+  <insert id="insertAll"  parameterType="java.util.List">
+    insert all
+    <foreach collection="list" item="item" index="index" separator=" " >
+      into PRPCMAINDEMO (POLICYNO, CLASSCODE, RISKCODE,
+      PROPOSALNO, CONTRACTNO, POLICYSORT,
+      PRINTNO, BUSINESSNATURE, LANGUAGE,
+      POLICYTYPE, APPLICODE, APPLINAME,
+      APPLIADDRESS, INSUREDCODE, INSUREDNAME,
+      INSUREDADDRESS)
+      values
+      ( #{item.policyno,jdbcType=VARCHAR},  #{item.classcode,jdbcType=VARCHAR},
+      #{item.riskcode,jdbcType=VARCHAR}, #{item.proposalno,jdbcType=VARCHAR},
+      #{item.contractno,jdbcType=VARCHAR},  #{item.policysort,jdbcType=VARCHAR},
+      #{item.printno,jdbcType=VARCHAR},  #{item.businessnature,jdbcType=VARCHAR},
+      #{item.language,jdbcType=VARCHAR}, #{item.policytype,jdbcType=VARCHAR},
+      #{item.applicode,jdbcType=VARCHAR},  #{item.appliname,jdbcType=VARCHAR},
+      #{item.appliaddress,jdbcType=VARCHAR},  #{item.insuredcode,jdbcType=VARCHAR},
+      #{item.insuredname,jdbcType=VARCHAR}, #{item.insuredaddress,jdbcType=VARCHAR})
+    </foreach> select 1 from dual
+  </insert>
+</mapper>

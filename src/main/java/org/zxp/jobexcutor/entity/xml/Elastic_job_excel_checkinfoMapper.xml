@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.zxp.jobexcutor.mapper.Elastic_job_excel_checkinfoMapper" >
+  <resultMap id="BaseResultMap" type="org.zxp.jobexcutor.entity.Elastic_job_excel_checkinfo" >
+    <id column="CHECKINFOUUID" property="checkinfouuid" jdbcType="VARCHAR" />
+    <result column="MAINUUID" property="mainuuid" jdbcType="VARCHAR" />
+    <result column="SERIALNO" property="serialno" jdbcType="DECIMAL" />
+    <result column="FILENAME" property="filename" jdbcType="VARCHAR" />
+    <result column="ERRORINFO" property="errorinfo" jdbcType="VARCHAR" />
+    <result column="CHECKCODE" property="checkcode" jdbcType="VARCHAR" />
+    <result column="INDEXNUM" property="indexnum" jdbcType="VARCHAR" />
+    <result column="INDEXFIELD" property="indexfield" jdbcType="VARCHAR" />
+    <result column="FLAG" property="flag" jdbcType="VARCHAR" />
+    <result column="INPUTDATE" property="inputdate" jdbcType="DATE" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    CHECKINFOUUID, MAINUUID, SERIALNO, FILENAME, ERRORINFO, CHECKCODE, INDEXNUM, INDEXFIELD, 
+    FLAG, INPUTDATE
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from ELASTIC_JOB_EXCEL_CHECKINFO
+    where CHECKINFOUUID = #{checkinfouuid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from ELASTIC_JOB_EXCEL_CHECKINFO
+    where CHECKINFOUUID = #{checkinfouuid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="org.zxp.jobexcutor.entity.Elastic_job_excel_checkinfo" >
+    insert into ELASTIC_JOB_EXCEL_CHECKINFO (CHECKINFOUUID, MAINUUID, SERIALNO, 
+      FILENAME, ERRORINFO, CHECKCODE, 
+      INDEXNUM, INDEXFIELD, FLAG, 
+      INPUTDATE)
+    values (#{checkinfouuid,jdbcType=VARCHAR}, #{mainuuid,jdbcType=VARCHAR}, #{serialno,jdbcType=DECIMAL}, 
+      #{filename,jdbcType=VARCHAR}, #{errorinfo,jdbcType=VARCHAR}, #{checkcode,jdbcType=VARCHAR}, 
+      #{indexnum,jdbcType=VARCHAR}, #{indexfield,jdbcType=VARCHAR}, #{flag,jdbcType=VARCHAR}, 
+      #{inputdate,jdbcType=DATE})
+  </insert>
+  <insert id="insertSelective" parameterType="org.zxp.jobexcutor.entity.Elastic_job_excel_checkinfo" >
+    insert into ELASTIC_JOB_EXCEL_CHECKINFO
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="checkinfouuid != null" >
+        CHECKINFOUUID,
+      </if>
+      <if test="mainuuid != null" >
+        MAINUUID,
+      </if>
+      <if test="serialno != null" >
+        SERIALNO,
+      </if>
+      <if test="filename != null" >
+        FILENAME,
+      </if>
+      <if test="errorinfo != null" >
+        ERRORINFO,
+      </if>
+      <if test="checkcode != null" >
+        CHECKCODE,
+      </if>
+      <if test="indexnum != null" >
+        INDEXNUM,
+      </if>
+      <if test="indexfield != null" >
+        INDEXFIELD,
+      </if>
+      <if test="flag != null" >
+        FLAG,
+      </if>
+      <if test="inputdate != null" >
+        INPUTDATE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="checkinfouuid != null" >
+        #{checkinfouuid,jdbcType=VARCHAR},
+      </if>
+      <if test="mainuuid != null" >
+        #{mainuuid,jdbcType=VARCHAR},
+      </if>
+      <if test="serialno != null" >
+        #{serialno,jdbcType=DECIMAL},
+      </if>
+      <if test="filename != null" >
+        #{filename,jdbcType=VARCHAR},
+      </if>
+      <if test="errorinfo != null" >
+        #{errorinfo,jdbcType=VARCHAR},
+      </if>
+      <if test="checkcode != null" >
+        #{checkcode,jdbcType=VARCHAR},
+      </if>
+      <if test="indexnum != null" >
+        #{indexnum,jdbcType=VARCHAR},
+      </if>
+      <if test="indexfield != null" >
+        #{indexfield,jdbcType=VARCHAR},
+      </if>
+      <if test="flag != null" >
+        #{flag,jdbcType=VARCHAR},
+      </if>
+      <if test="inputdate != null" >
+        #{inputdate,jdbcType=DATE},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="org.zxp.jobexcutor.entity.Elastic_job_excel_checkinfo" >
+    update ELASTIC_JOB_EXCEL_CHECKINFO
+    <set >
+      <if test="mainuuid != null" >
+        MAINUUID = #{mainuuid,jdbcType=VARCHAR},
+      </if>
+      <if test="serialno != null" >
+        SERIALNO = #{serialno,jdbcType=DECIMAL},
+      </if>
+      <if test="filename != null" >
+        FILENAME = #{filename,jdbcType=VARCHAR},
+      </if>
+      <if test="errorinfo != null" >
+        ERRORINFO = #{errorinfo,jdbcType=VARCHAR},
+      </if>
+      <if test="checkcode != null" >
+        CHECKCODE = #{checkcode,jdbcType=VARCHAR},
+      </if>
+      <if test="indexnum != null" >
+        INDEXNUM = #{indexnum,jdbcType=VARCHAR},
+      </if>
+      <if test="indexfield != null" >
+        INDEXFIELD = #{indexfield,jdbcType=VARCHAR},
+      </if>
+      <if test="flag != null" >
+        FLAG = #{flag,jdbcType=VARCHAR},
+      </if>
+      <if test="inputdate != null" >
+        INPUTDATE = #{inputdate,jdbcType=DATE},
+      </if>
+    </set>
+    where CHECKINFOUUID = #{checkinfouuid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.zxp.jobexcutor.entity.Elastic_job_excel_checkinfo" >
+    update ELASTIC_JOB_EXCEL_CHECKINFO
+    set MAINUUID = #{mainuuid,jdbcType=VARCHAR},
+      SERIALNO = #{serialno,jdbcType=DECIMAL},
+      FILENAME = #{filename,jdbcType=VARCHAR},
+      ERRORINFO = #{errorinfo,jdbcType=VARCHAR},
+      CHECKCODE = #{checkcode,jdbcType=VARCHAR},
+      INDEXNUM = #{indexnum,jdbcType=VARCHAR},
+      INDEXFIELD = #{indexfield,jdbcType=VARCHAR},
+      FLAG = #{flag,jdbcType=VARCHAR},
+      INPUTDATE = #{inputdate,jdbcType=DATE}
+    where CHECKINFOUUID = #{checkinfouuid,jdbcType=VARCHAR}
+  </update>
+</mapper>

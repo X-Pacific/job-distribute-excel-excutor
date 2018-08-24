@@ -1,0 +1,158 @@
+drop table elastic_job_excel_main;
+create table elastic_job_excel_main(
+       uuid varchar2(255),
+       riskcode varchar2(255),
+       prodtype varchar2(255),
+       exceloriname varchar2(255),
+       excelsplitsize number(12,0),
+       exceloripath varchar2(255),
+       excelsplitpath varchar2(255),
+       status varchar2(255),
+       flag  varchar2(255),
+       errorinfo varchar2(1000),
+       converttimeuse number(12,0),
+       splittimeuse number(12,0),
+       dealbegintime varchar2(255),
+       dealendtime varchar2(255),
+       rop number(12,0),
+       total number(12,0),
+       extfield1 varchar2(255),
+       extfield2 varchar2(255),
+       extfield3 varchar2(255),
+       extfield4 varchar2(255),
+       inputdate date,
+       updatedate date
+);
+alter table elastic_job_excel_main add constraint pk_excel_main primary key (uuid);
+COMMENT ON table elastic_job_excel_main IS '分布式定时任务处理excel主表';
+comment on column elastic_job_excel_main.riskcode is '险种';
+comment on column elastic_job_excel_main.prodtype is '类型';
+comment on column elastic_job_excel_main.exceloriname is 'excel原名';
+comment on column elastic_job_excel_main.excelsplitsize is '拆分数量';
+comment on column elastic_job_excel_main.exceloripath is 'excel原路径';
+comment on column elastic_job_excel_main.excelsplitpath is 'excel拆分路径';
+comment on column elastic_job_excel_main.status is 'excel处理状态 0未处理 |-1 excel拆分处理失败 1excel拆分完成  10excel拆分中|-2excel分布处理失败 2excel分布处理完成(有异常情况，部分失败、主子不一致等) 20excel分布处理中|100excel分布处理完成(全部成功) |非分布式：-2失败 0初始 20处理中 100完成';
+comment on column elastic_job_excel_main.flag is '配置拆分文件大小';
+comment on column elastic_job_excel_main.errorinfo is '错误原因';
+comment on column elastic_job_excel_main.converttimeuse is '转化时间消耗，单位ms';
+comment on column elastic_job_excel_main.splittimeuse is '拆分时间消耗，单位ms';
+comment on column elastic_job_excel_main.dealbegintime is '处理开始时间，单位ms';
+comment on column elastic_job_excel_main.dealendtime is '处理结束时间，单位ms';
+comment on column elastic_job_excel_main.rop is '进度 %';
+comment on column elastic_job_excel_main.inputdate is '入表日期';
+comment on column elastic_job_excel_main.updatedate is '修改日期';
+comment on column elastic_job_excel_main.extfield1 is '是否已经被锁 1锁 其他未锁';
+comment on column elastic_job_excel_main.extfield2 is '0非分布式处理 其他分布式处理';
+comment on column elastic_job_excel_main.extfield3 is '被代理对象的beanID';
+comment on column elastic_job_excel_main.extfield4 is '非分布式checkcode';
+comment on column elastic_job_excel_main.total is '处理总行数';
+
+Create index index_excel_main_riskcode on elastic_job_excel_main (riskcode);
+Create index index_excel_main_prodtype on elastic_job_excel_main (prodtype);
+Create index index_excel_main_exceloriname on elastic_job_excel_main (exceloriname);
+Create index index_excel_main_status on elastic_job_excel_main (status);
+
+
+drop table elastic_job_excel_sub;
+create table elastic_job_excel_sub(
+       uuid varchar2(255),
+       serialno number(12,0),
+       excelsplitname varchar2(255),
+       excelsplitpath varchar2(255),
+       status varchar2(255),
+       errorinfo varchar2(1000),
+       checkcode varchar2(255),
+       dealbegintime varchar2(255),
+       dealendtime varchar2(255),
+       flag  varchar2(255),
+       total number(12,0),
+       inputdate date,
+       updatedate date
+);
+alter table elastic_job_excel_sub add constraint pk_excel_sub primary key (uuid,serialno);
+COMMENT ON table elastic_job_excel_sub IS '分布式定时任务处理excel子表';
+comment on column elastic_job_excel_sub.serialno is '序号（与excel拆分序号对应）';
+comment on column elastic_job_excel_sub.excelsplitname is 'excel拆分名称';
+comment on column elastic_job_excel_sub.excelsplitpath is 'excel路径';
+comment on column elastic_job_excel_sub.status is 'excel处理状态 1生成|2读取处理完成|3失败|4读取中';
+comment on column elastic_job_excel_sub.total is '处理数量';
+comment on column elastic_job_excel_sub.flag is '拓展字段';
+comment on column elastic_job_excel_sub.errorinfo is '错误原因';
+comment on column elastic_job_excel_sub.checkcode is '校验匹配码';
+comment on column elastic_job_excel_sub.dealbegintime is '处理开始时间，单位ms';
+comment on column elastic_job_excel_sub.dealendtime is '处理结束时间，单位ms';
+comment on column elastic_job_excel_sub.flag is '[当前处理分片,总分片]';
+
+Create index index_excel_sub_uuid on elastic_job_excel_sub (uuid);
+Create index index_excel_sub_uuidname on elastic_job_excel_sub (uuid,excelsplitname);
+Create index index_excel_sub_status on elastic_job_excel_sub (status);
+
+
+drop table elastic_job_excel_sub_his;
+create table elastic_job_excel_sub_his(
+       uuid varchar2(255),
+       serialno number(12,0),
+       excelsplitname varchar2(255),
+       excelsplitpath varchar2(255),
+       status varchar2(255),
+       errorinfo varchar2(1000),
+       checkcode varchar2(255),
+       dealbegintime varchar2(255),
+       dealendtime varchar2(255),
+       flag  varchar2(255),
+       total number(12,0),
+       inputdate date,
+       updatedate date
+);
+alter table elastic_job_excel_sub_his add constraint pk_excel_sub_his primary key (uuid,serialno);
+COMMENT ON table elastic_job_excel_sub_his IS '分布式定时任务处理excel子表(转储)';
+comment on column elastic_job_excel_sub_his.serialno is '序号（与excel拆分序号对应）';
+comment on column elastic_job_excel_sub_his.excelsplitname is 'excel拆分名称';
+comment on column elastic_job_excel_sub_his.excelsplitpath is 'excel路径';
+comment on column elastic_job_excel_sub_his.status is 'excel处理状态 1生成|2读取处理完成|3失败|4读取中';
+comment on column elastic_job_excel_sub_his.total is '处理数量';
+comment on column elastic_job_excel_sub_his.flag is '拓展字段';
+comment on column elastic_job_excel_sub_his.errorinfo is '错误原因';
+comment on column elastic_job_excel_sub_his.checkcode is '校验匹配码';
+comment on column elastic_job_excel_sub_his.dealbegintime is '处理开始时间，单位ms';
+comment on column elastic_job_excel_sub_his.dealendtime is '处理结束时间，单位ms';
+comment on column elastic_job_excel_sub_his.flag is '[当前处理分片,总分片]';
+
+Create index index_excel_sub_uuid_his on elastic_job_excel_sub_his (uuid);
+Create index index_excel_sub_uuidname_his on elastic_job_excel_sub_his (uuid,excelsplitname);
+Create index index_excel_sub_status_his on elastic_job_excel_sub_his (status);
+
+drop table elastic_job_excel_checkinfo;
+create table elastic_job_excel_checkinfo(
+			 checkinfouuid varchar2(255),	
+       mainuuid varchar2(255),
+       serialno number(12,0),
+       filename varchar2(255),
+       errorinfo varchar2(2000),
+       checkcode varchar2(255),
+       indexnum varchar2(255),
+       indexfield varchar2(255),
+       flag  varchar2(255),
+       inputdate date
+);
+alter table elastic_job_excel_checkinfo add constraint pk_excel_checkinfo primary key (checkinfouuid);
+comment on column elastic_job_excel_checkinfo.checkinfouuid is '主键';
+comment on column elastic_job_excel_checkinfo.mainuuid is '主任务主键';
+comment on column elastic_job_excel_checkinfo.serialno is '序号（与excel拆分序号对应）';
+comment on column elastic_job_excel_checkinfo.filename is 'excel拆分文件路径';
+comment on column elastic_job_excel_checkinfo.errorinfo is '校验内容';
+comment on column elastic_job_excel_checkinfo.checkcode is '校验匹配码，同一批匹配码会一致';
+comment on column elastic_job_excel_checkinfo.indexnum is '被校验数据对应原excel行数';
+comment on column elastic_job_excel_checkinfo.indexfield is '被校验数据逻辑主键';
+comment on column elastic_job_excel_checkinfo.flag is '备用字段';
+comment on column elastic_job_excel_checkinfo.inputdate is '入表日期';
+
+
+Create index index_excel_checkinfo_uuid on elastic_job_excel_checkinfo (mainuuid);
+Create index index_excel_checkinfo_filename on elastic_job_excel_checkinfo (filename);
+Create index index_excel_checkinfo_chc on elastic_job_excel_checkinfo (checkcode);
+
+-- 测试任务
+insert into elastic_job_excel_main (UUID, RISKCODE, PRODTYPE, EXCELORINAME, EXCELSPLITSIZE, EXCELORIPATH, EXCELSPLITPATH, STATUS, FLAG, ERRORINFO, CONVERTTIMEUSE, SPLITTIMEUSE, DEALBEGINTIME, DEALENDTIME, ROP, EXTFIELD1, EXTFIELD2, EXTFIELD3, EXTFIELD4, INPUTDATE, UPDATEDATE)
+values ('1', '0000', 'DEMO', 'e2.xlsx', 5, 'D:/eeee/gencsv', 'D:/eeee/gencsv\e2.xlsx_1', '1', '', '正常', 35218, 1124, '', '', 28, '', '', '', '', to_date('21-06-2018', 'dd-mm-yyyy'), to_date('25-06-2018', 'dd-mm-yyyy'));
+

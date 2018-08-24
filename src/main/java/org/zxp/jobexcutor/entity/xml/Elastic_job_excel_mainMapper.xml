@@ -1,0 +1,450 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.zxp.jobexcutor.mapper.Elastic_job_excel_mainMapper">
+  <resultMap id="BaseResultMap" type="org.zxp.jobexcutor.entity.Elastic_job_excel_main">
+    <id column="UUID" jdbcType="VARCHAR" property="uuid" />
+    <result column="RISKCODE" jdbcType="VARCHAR" property="riskcode" />
+    <result column="PRODTYPE" jdbcType="VARCHAR" property="prodtype" />
+    <result column="EXCELORINAME" jdbcType="VARCHAR" property="exceloriname" />
+    <result column="EXCELSPLITSIZE" jdbcType="DECIMAL" property="excelsplitsize" />
+    <result column="EXCELORIPATH" jdbcType="VARCHAR" property="exceloripath" />
+    <result column="EXCELSPLITPATH" jdbcType="VARCHAR" property="excelsplitpath" />
+    <result column="STATUS" jdbcType="VARCHAR" property="status" />
+    <result column="FLAG" jdbcType="VARCHAR" property="flag" />
+    <result column="ERRORINFO" jdbcType="VARCHAR" property="errorinfo" />
+    <result column="CONVERTTIMEUSE" jdbcType="DECIMAL" property="converttimeuse" />
+    <result column="SPLITTIMEUSE" jdbcType="DECIMAL" property="splittimeuse" />
+    <result column="DEALBEGINTIME" jdbcType="VARCHAR" property="dealbegintime" />
+    <result column="DEALENDTIME" jdbcType="VARCHAR" property="dealendtime" />
+    <result column="ROP" jdbcType="DECIMAL" property="rop" />
+    <result column="TOTAL" jdbcType="DECIMAL" property="total" />
+    <result column="EXTFIELD1" jdbcType="VARCHAR" property="extfield1" />
+    <result column="EXTFIELD2" jdbcType="VARCHAR" property="extfield2" />
+    <result column="EXTFIELD3" jdbcType="VARCHAR" property="extfield3" />
+    <result column="EXTFIELD4" jdbcType="VARCHAR" property="extfield4" />
+    <result column="INPUTDATE" jdbcType="DATE" property="inputdate" />
+    <result column="UPDATEDATE" jdbcType="DATE" property="updatedate" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    UUID, RISKCODE, PRODTYPE, EXCELORINAME, EXCELSPLITSIZE, EXCELORIPATH, EXCELSPLITPATH, 
+    STATUS, FLAG, ERRORINFO, CONVERTTIMEUSE, SPLITTIMEUSE, DEALBEGINTIME, DEALENDTIME, 
+    ROP, TOTAL, EXTFIELD1, EXTFIELD2, EXTFIELD3, EXTFIELD4, INPUTDATE, UPDATEDATE
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from ELASTIC_JOB_EXCEL_MAIN
+    where UUID = #{uuid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from ELASTIC_JOB_EXCEL_MAIN
+    where UUID = #{uuid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="org.zxp.jobexcutor.entity.Elastic_job_excel_main">
+    insert into ELASTIC_JOB_EXCEL_MAIN (UUID, RISKCODE, PRODTYPE, 
+      EXCELORINAME, EXCELSPLITSIZE, EXCELORIPATH, 
+      EXCELSPLITPATH, STATUS, FLAG, 
+      ERRORINFO, CONVERTTIMEUSE, SPLITTIMEUSE, 
+      DEALBEGINTIME, DEALENDTIME, ROP, 
+      TOTAL, EXTFIELD1, EXTFIELD2, 
+      EXTFIELD3, EXTFIELD4, INPUTDATE, 
+      UPDATEDATE)
+    values (#{uuid,jdbcType=VARCHAR}, #{riskcode,jdbcType=VARCHAR}, #{prodtype,jdbcType=VARCHAR}, 
+      #{exceloriname,jdbcType=VARCHAR}, #{excelsplitsize,jdbcType=DECIMAL}, #{exceloripath,jdbcType=VARCHAR}, 
+      #{excelsplitpath,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{flag,jdbcType=VARCHAR}, 
+      #{errorinfo,jdbcType=VARCHAR}, #{converttimeuse,jdbcType=DECIMAL}, #{splittimeuse,jdbcType=DECIMAL}, 
+      #{dealbegintime,jdbcType=VARCHAR}, #{dealendtime,jdbcType=VARCHAR}, #{rop,jdbcType=DECIMAL}, 
+      #{total,jdbcType=DECIMAL}, #{extfield1,jdbcType=VARCHAR}, #{extfield2,jdbcType=VARCHAR}, 
+      #{extfield3,jdbcType=VARCHAR}, #{extfield4,jdbcType=VARCHAR}, #{inputdate,jdbcType=DATE}, 
+      #{updatedate})
+  </insert>
+  <insert id="insertSelective" parameterType="org.zxp.jobexcutor.entity.Elastic_job_excel_main">
+    insert into ELASTIC_JOB_EXCEL_MAIN
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="uuid != null">
+        UUID,
+      </if>
+      <if test="riskcode != null">
+        RISKCODE,
+      </if>
+      <if test="prodtype != null">
+        PRODTYPE,
+      </if>
+      <if test="exceloriname != null">
+        EXCELORINAME,
+      </if>
+      <if test="excelsplitsize != null">
+        EXCELSPLITSIZE,
+      </if>
+      <if test="exceloripath != null">
+        EXCELORIPATH,
+      </if>
+      <if test="excelsplitpath != null">
+        EXCELSPLITPATH,
+      </if>
+      <if test="status != null">
+        STATUS,
+      </if>
+      <if test="flag != null">
+        FLAG,
+      </if>
+      <if test="errorinfo != null">
+        ERRORINFO,
+      </if>
+      <if test="converttimeuse != null">
+        CONVERTTIMEUSE,
+      </if>
+      <if test="splittimeuse != null">
+        SPLITTIMEUSE,
+      </if>
+      <if test="dealbegintime != null">
+        DEALBEGINTIME,
+      </if>
+      <if test="dealendtime != null">
+        DEALENDTIME,
+      </if>
+      <if test="rop != null">
+        ROP,
+      </if>
+      <if test="total != null">
+        TOTAL,
+      </if>
+      <if test="extfield1 != null">
+        EXTFIELD1,
+      </if>
+      <if test="extfield2 != null">
+        EXTFIELD2,
+      </if>
+      <if test="extfield3 != null">
+        EXTFIELD3,
+      </if>
+      <if test="extfield4 != null">
+        EXTFIELD4,
+      </if>
+      <if test="inputdate != null">
+        INPUTDATE,
+      </if>
+      <if test="updatedate != null">
+        UPDATEDATE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="uuid != null">
+        #{uuid,jdbcType=VARCHAR},
+      </if>
+      <if test="riskcode != null">
+        #{riskcode,jdbcType=VARCHAR},
+      </if>
+      <if test="prodtype != null">
+        #{prodtype,jdbcType=VARCHAR},
+      </if>
+      <if test="exceloriname != null">
+        #{exceloriname,jdbcType=VARCHAR},
+      </if>
+      <if test="excelsplitsize != null">
+        #{excelsplitsize,jdbcType=DECIMAL},
+      </if>
+      <if test="exceloripath != null">
+        #{exceloripath,jdbcType=VARCHAR},
+      </if>
+      <if test="excelsplitpath != null">
+        #{excelsplitpath,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="flag != null">
+        #{flag,jdbcType=VARCHAR},
+      </if>
+      <if test="errorinfo != null">
+        #{errorinfo,jdbcType=VARCHAR},
+      </if>
+      <if test="converttimeuse != null">
+        #{converttimeuse,jdbcType=DECIMAL},
+      </if>
+      <if test="splittimeuse != null">
+        #{splittimeuse,jdbcType=DECIMAL},
+      </if>
+      <if test="dealbegintime != null">
+        #{dealbegintime,jdbcType=VARCHAR},
+      </if>
+      <if test="dealendtime != null">
+        #{dealendtime,jdbcType=VARCHAR},
+      </if>
+      <if test="rop != null">
+        #{rop,jdbcType=DECIMAL},
+      </if>
+      <if test="total != null">
+        #{total,jdbcType=DECIMAL},
+      </if>
+      <if test="extfield1 != null">
+        #{extfield1,jdbcType=VARCHAR},
+      </if>
+      <if test="extfield2 != null">
+        #{extfield2,jdbcType=VARCHAR},
+      </if>
+      <if test="extfield3 != null">
+        #{extfield3,jdbcType=VARCHAR},
+      </if>
+      <if test="extfield4 != null">
+        #{extfield4,jdbcType=VARCHAR},
+      </if>
+      <if test="inputdate != null">
+        #{inputdate,jdbcType=DATE},
+      </if>
+      <if test="updatedate != null">
+        #{updatedate,jdbcType=DATE},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="org.zxp.jobexcutor.entity.Elastic_job_excel_main">
+    update ELASTIC_JOB_EXCEL_MAIN
+    <set>
+      <if test="riskcode != null">
+        RISKCODE = #{riskcode,jdbcType=VARCHAR},
+      </if>
+      <if test="prodtype != null">
+        PRODTYPE = #{prodtype,jdbcType=VARCHAR},
+      </if>
+      <if test="exceloriname != null">
+        EXCELORINAME = #{exceloriname,jdbcType=VARCHAR},
+      </if>
+      <if test="excelsplitsize != null">
+        EXCELSPLITSIZE = #{excelsplitsize,jdbcType=DECIMAL},
+      </if>
+      <if test="exceloripath != null">
+        EXCELORIPATH = #{exceloripath,jdbcType=VARCHAR},
+      </if>
+      <if test="excelsplitpath != null">
+        EXCELSPLITPATH = #{excelsplitpath,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        STATUS = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="flag != null">
+        FLAG = #{flag,jdbcType=VARCHAR},
+      </if>
+      <if test="errorinfo != null">
+        ERRORINFO = #{errorinfo,jdbcType=VARCHAR},
+      </if>
+      <if test="converttimeuse != null">
+        CONVERTTIMEUSE = #{converttimeuse,jdbcType=DECIMAL},
+      </if>
+      <if test="splittimeuse != null">
+        SPLITTIMEUSE = #{splittimeuse,jdbcType=DECIMAL},
+      </if>
+      <if test="dealbegintime != null">
+        DEALBEGINTIME = #{dealbegintime,jdbcType=VARCHAR},
+      </if>
+      <if test="dealendtime != null">
+        DEALENDTIME = #{dealendtime,jdbcType=VARCHAR},
+      </if>
+      <if test="rop != null">
+        ROP = #{rop,jdbcType=DECIMAL},
+      </if>
+      <if test="total != null">
+        TOTAL = #{total,jdbcType=DECIMAL},
+      </if>
+      <if test="extfield1 != null">
+        EXTFIELD1 = #{extfield1,jdbcType=VARCHAR},
+      </if>
+      <if test="extfield2 != null">
+        EXTFIELD2 = #{extfield2,jdbcType=VARCHAR},
+      </if>
+      <if test="extfield3 != null">
+        EXTFIELD3 = #{extfield3,jdbcType=VARCHAR},
+      </if>
+      <if test="extfield4 != null">
+        EXTFIELD4 = #{extfield4,jdbcType=VARCHAR},
+      </if>
+      <if test="inputdate != null">
+        INPUTDATE = #{inputdate,jdbcType=DATE},
+      </if>
+      <if test="updatedate != null">
+        UPDATEDATE = #{updatedate,jdbcType=DATE},
+      </if>
+    </set>
+    where UUID = #{uuid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.zxp.jobexcutor.entity.Elastic_job_excel_main">
+    update ELASTIC_JOB_EXCEL_MAIN
+    set RISKCODE = #{riskcode,jdbcType=VARCHAR},
+      PRODTYPE = #{prodtype,jdbcType=VARCHAR},
+      EXCELORINAME = #{exceloriname,jdbcType=VARCHAR},
+      EXCELSPLITSIZE = #{excelsplitsize,jdbcType=DECIMAL},
+      EXCELORIPATH = #{exceloripath,jdbcType=VARCHAR},
+      EXCELSPLITPATH = #{excelsplitpath,jdbcType=VARCHAR},
+      STATUS = #{status,jdbcType=VARCHAR},
+      FLAG = #{flag,jdbcType=VARCHAR},
+      ERRORINFO = #{errorinfo,jdbcType=VARCHAR},
+      CONVERTTIMEUSE = #{converttimeuse,jdbcType=DECIMAL},
+      SPLITTIMEUSE = #{splittimeuse,jdbcType=DECIMAL},
+      DEALBEGINTIME = #{dealbegintime,jdbcType=VARCHAR},
+      DEALENDTIME = #{dealendtime,jdbcType=VARCHAR},
+      ROP = #{rop,jdbcType=DECIMAL},
+      TOTAL = #{total,jdbcType=DECIMAL},
+      EXTFIELD1 = #{extfield1,jdbcType=VARCHAR},
+      EXTFIELD2 = #{extfield2,jdbcType=VARCHAR},
+      EXTFIELD3 = #{extfield3,jdbcType=VARCHAR},
+      EXTFIELD4 = #{extfield4,jdbcType=VARCHAR},
+      INPUTDATE = #{inputdate,jdbcType=DATE},
+      UPDATEDATE = #{updatedate}
+    where UUID = #{uuid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByLock" parameterType="org.zxp.jobexcutor.entity.Elastic_job_excel_main">
+    update ELASTIC_JOB_EXCEL_MAIN
+    set RISKCODE = #{riskcode,jdbcType=VARCHAR},
+    PRODTYPE = #{prodtype,jdbcType=VARCHAR},
+    EXCELORINAME = #{exceloriname,jdbcType=VARCHAR},
+    EXCELSPLITSIZE = #{excelsplitsize,jdbcType=DECIMAL},
+    EXCELORIPATH = #{exceloripath,jdbcType=VARCHAR},
+    EXCELSPLITPATH = #{excelsplitpath,jdbcType=VARCHAR},
+    STATUS = #{status,jdbcType=VARCHAR},
+    FLAG = #{flag,jdbcType=VARCHAR},
+    ERRORINFO = #{errorinfo,jdbcType=VARCHAR},
+    CONVERTTIMEUSE = #{converttimeuse,jdbcType=DECIMAL},
+    SPLITTIMEUSE = #{splittimeuse,jdbcType=DECIMAL},
+    DEALBEGINTIME = #{dealbegintime,jdbcType=VARCHAR},
+    DEALENDTIME = #{dealendtime,jdbcType=VARCHAR},
+    ROP = #{rop,jdbcType=DECIMAL},
+    TOTAL = #{total,jdbcType=DECIMAL},
+    EXTFIELD1 = #{extfield1,jdbcType=VARCHAR},
+    EXTFIELD2 = #{extfield2,jdbcType=VARCHAR},
+    EXTFIELD3 = #{extfield3,jdbcType=VARCHAR},
+    EXTFIELD4 = #{extfield4,jdbcType=VARCHAR},
+    INPUTDATE = #{inputdate,jdbcType=DATE},
+    UPDATEDATE = #{updatedate}
+    where UUID = #{uuid,jdbcType=VARCHAR} and (EXTFIELD1 != '1' or EXTFIELD1 is null)
+  </update>
+  <select id="findOneSplitExcelJob"   resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from ELASTIC_JOB_EXCEL_MAIN
+    where status = '0' and (EXTFIELD2 != '0' or EXTFIELD2 is null) and rownum = 1
+  </select>
+  <select id="findOneSplitExcelJobByType" parameterType="org.zxp.jobexcutor.entity.Elastic_job_excel_main" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from ELASTIC_JOB_EXCEL_MAIN
+    where status = '0'  AND 1 = 1
+    <if test="uuid != null">
+      and uuid = #{uuid,jdbcType=VARCHAR}
+    </if>
+    <if test="riskcode != null">
+      and riskcode in
+      <foreach item="item" index="index" collection="riskcode.split(',')" open="(" separator="," close=")">
+        '${item}'
+      </foreach>
+    </if>
+    <if test="prodtype != null">
+      and prodtype in
+      <foreach item="item" index="index" collection="prodtype.split(',')" open="(" separator="," close=")">
+        '${item}'
+      </foreach>
+    </if>
+    and (EXTFIELD2 != '0' OR EXTFIELD2 IS NULL) and rownum = 1
+  </select>
+  <select id="findOneReadExcelJobByType20" parameterType="org.zxp.jobexcutor.entity.Elastic_job_excel_main" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from ELASTIC_JOB_EXCEL_MAIN
+    where status = '20'  AND 1 = 1
+    <if test="uuid != null">
+      and uuid = #{uuid,jdbcType=VARCHAR}
+    </if>
+    <if test="riskcode != null">
+      and riskcode in
+      <foreach item="item" index="index" collection="riskcode.split(',')" open="(" separator="," close=")">
+        '${item}'
+      </foreach>
+    </if>
+    <if test="prodtype != null">
+      and prodtype in
+      <foreach item="item" index="index" collection="prodtype.split(',')" open="(" separator="," close=")">
+        '${item}'
+      </foreach>
+    </if>
+    and (EXTFIELD2 != '0' OR EXTFIELD2 IS NULL) and rownum = 1 ORDER  BY INPUTDATE ASC
+  </select>
+  <select id="findOneReadExcelJobByTypeOp" parameterType="org.zxp.jobexcutor.entity.Elastic_job_excel_main" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from ELASTIC_JOB_EXCEL_MAIN
+    where (status = '2' or status = '20')  AND 1 = 1
+    and uuid = #{uuid,jdbcType=VARCHAR}
+    <if test="riskcode != null">
+      and riskcode in
+      <foreach item="item" index="index" collection="riskcode.split(',')" open="(" separator="," close=")">
+        '${item}'
+      </foreach>
+    </if>
+    <if test="prodtype != null">
+      and prodtype in
+      <foreach item="item" index="index" collection="prodtype.split(',')" open="(" separator="," close=")">
+        '${item}'
+      </foreach>
+    </if>
+    and (EXTFIELD2 != '0' OR EXTFIELD2 IS NULL) and rownum = 1 ORDER  BY INPUTDATE ASC
+  </select>
+  <select id="findOneReadExcelJobByType1" parameterType="org.zxp.jobexcutor.entity.Elastic_job_excel_main" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from ELASTIC_JOB_EXCEL_MAIN
+    where status = '1'  AND 1 = 1
+    <if test="uuid != null">
+      and uuid = #{uuid,jdbcType=VARCHAR}
+    </if>
+    <if test="riskcode != null">
+      and riskcode in
+      <foreach item="item" index="index" collection="riskcode.split(',')" open="(" separator="," close=")">
+        '${item}'
+      </foreach>
+    </if>
+    <if test="prodtype != null">
+      and prodtype in
+      <foreach item="item" index="index" collection="prodtype.split(',')" open="(" separator="," close=")">
+        '${item}'
+      </foreach>
+    </if>
+    and (EXTFIELD2 != '0' OR EXTFIELD2 IS NULL) and rownum = 1 ORDER  BY INPUTDATE ASC
+  </select>
+
+  <select id="findOneReadExcelJobByType0_notdis" parameterType="org.zxp.jobexcutor.entity.Elastic_job_excel_main" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from ELASTIC_JOB_EXCEL_MAIN
+    where status = '0'  AND 1 = 1
+    <if test="uuid != null">
+      and uuid = #{uuid,jdbcType=VARCHAR}
+    </if>
+    <if test="riskcode != null">
+      and riskcode in
+      <foreach item="item" index="index" collection="riskcode.split(',')" open="(" separator="," close=")">
+        '${item}'
+      </foreach>
+    </if>
+    <if test="prodtype != null">
+      and prodtype in
+      <foreach item="item" index="index" collection="prodtype.split(',')" open="(" separator="," close=")">
+        '${item}'
+      </foreach>
+    </if>
+    and extfield2 = '0' and rownum = 1 ORDER  BY INPUTDATE ASC
+  </select>
+  <select id="selectMainList" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from ELASTIC_JOB_EXCEL_MAIN
+    where 1 = 1
+    <if test="uuid != null">
+      and uuid = #{uuid,jdbcType=VARCHAR}
+    </if>
+    <if test="status != null">
+      and status in
+      <foreach item="item" index="index" collection="status.split(',')" open="(" separator="," close=")">
+        '${item}'
+      </foreach>
+    </if>
+    and (EXTFIELD2 != '0' or EXTFIELD2 is null) and EXTFIELD1 = '1'
+  </select>
+</mapper>
