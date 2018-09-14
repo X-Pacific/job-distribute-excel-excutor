@@ -255,7 +255,7 @@ docker tag IMAGEID(镜像id) mysql
 docker run --privileged=true --name mysql5.7 -p 3306:3306 -v /my/mysql/datadir:/var/lib/mysql -v /my/mysql/conf.d:/etc/mysql/conf.d -e MYSQL_ROOT_PASSWORD=123456 -d mysql:5.7
 ```
 
-> mysql建设好后，需要执行脚本，[点击下载](http://pdv71y0dp.bkt.clouddn.com/xxl-job.sql/)
+> mysql建设好后，需要执行脚本，[点击下载](http://pdv71y0dp.bkt.clouddn.com/xxl-job.sql)
 
 
 
