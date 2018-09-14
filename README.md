@@ -1,21 +1,20 @@
 # excel分布式处理组件的介绍
 > 这是一个基于xxl-job的excel分布式处理组件，它可以自动拆分excel并通过xxl-job分布式定时任务的功能对大excel进行分布式计算和处理。
 
-## 它帮你做了很多事情
+## 它做了什么
 1. 帮你自动拆分、读取excel文件数据，当然这些步骤对于开发人员是无感的
 1. 帮你自动做分布式任务资源的争抢，当然这些分布式的步骤对于开发人员依然是无感的
 1. 帮你自动统计主、子任务的执行时间以及百分比制的总进度
 1. 帮你自动做主子一致性总数的校验
 1. 而上面的一切仅仅需要开发人员动动手指加一行注解以及实现一个接口
-1. 那么，开发人员可以完全把精力放在业务代码上，其他的事情交给框架去做吧
+1. 开发人员可以完全把精力放在业务代码上，其他的事情框架去做
 
 ## 实现架构图
 
-![image](https://note.youdao.com/yws/public/resource/71da29d880ebf4c2396c5bd7569299ae/xmlnote/B44C52ECBD0A4C4E9964966E9CA8B139/33201)
+![image](http://pdv71y0dp.bkt.clouddn.com/TIM%E6%88%AA%E5%9B%BE20180914170154.png)
 
-> 我们快来看看，怎么使用吧
 
-# 快速开始
+# STARTER
 
 ## 准备
 
@@ -222,7 +221,149 @@ spring.zk.config.uri=localhost:2181
 
 # 容器化部署
 
+> 注意：本例是在centos7下操作，不同操作系统请更换命令
+
+> 容器化部署有两个特别需要注意的地方，否则可能造成无法正常调度任务
+
+
+1. docker容器中的时间，linux的时间都需要保持一致，具体方法如下：
+
+```
+yum install -y ntpdate
+ntpdate time.windows.com
+```
+
+2. 如果通过docker方式启动，需要在调度中心执行器管理界面，将执行器编辑页面中的机器地址设置为你容器集群中的ip:port，多个以逗号隔开，否则无法正常调度
+
+## 第一部分，公共服务部分
+
+### 清理docker容器，以及关闭防火墙
+
+```
+systemctl stop firewalld.service
+systemctl restart docker
+```
+
+### docker安装mysql（配合调度中心所用）
+
+```
+//拉区mysql镜像
+docker pull hub.c.163.com/library/mysql
+//重命名镜像名称
+docker tag IMAGEID(镜像id) mysql
+//启动mysql容器，并将数据库文件目录挂载宿主机，指定root用户密码
+docker run --privileged=true --name mysql5.7 -p 3306:3306 -v /my/mysql/datadir:/var/lib/mysql -v /my/mysql/conf.d:/etc/mysql/conf.d -e MYSQL_ROOT_PASSWORD=123456 -d mysql:5.7
+```
+
+> mysql建设好后，需要执行脚本，[点击下载](http://pdv71y0dp.bkt.clouddn.com/xxl-job.sql/)
+
+
+
+### docker安装redis
+
+```
+docker pull  redis:3.2
+docker run -d -p 6379:6379 docker.io/redis:3.2
+```
+
+### 通过dockerfile制作调度中心镜像
+
+> 将job-admin.zip拷贝到与dockerfile同一路径
+
+> dockerfile内容如下：
+
+
+```
+from hub.c.163.com/library/tomcat:latest
+MAINTAINER zxp
+ENV DIR_WEBAPP /usr/local/tomcat/webapps/
+RUN  rm -rf $DIR_WEBAPP/*
+ADD job-admin.zip $DIR_WEBAPP/job-admin.zip
+RUN unzip $DIR_WEBAPP/job-admin.zip  -d  $DIR_WEBAPP/
+CMD ["catalina.sh", "run"]
+```
+> 执行生成镜像的命令
+
+
+```
+docker build -t job-admin:latest . 
+```
+> 启动调度中心的容器
+
+```
+docker run -d -p 8080:8080 job-admin
+```
+
+> job-admin.zip中需要将配置文件中的xxl.job.db参数调整为docker的mysql实例地址，xxl.job.mail需要设置为通知邮箱
+
+## 第二部分，执行任务单元部分
+
+> 先把构建好的job-excutor-0.0.1-SNAPSHOT.jar与jdk1.8放入同一目录
+
+> 需要制定多个dockerfile，命名一个文件为9090（对应9090端口），内容为：
+
+> 编码部分的设定是为了让容器日志不乱码，jdk1.8.0_131是同级目录jdk的名字
+
+```
+FROM centos
+MAINTAINER zxp
+COPY jdk1.8.0_131 jdk1.8.0_131
+ADD job-excutor-0.0.1-SNAPSHOT.jar app.jar
+ENV LANG en_US.UTF-8  
+ENV LANGUAGE en_US:en  
+ENV LC_ALL en_US.UTF-8
+ENV JAVA_HOME=/jdk1.8.0_131
+ENV PATH=$JAVA_HOME/bin:$PATH
+ENV CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar
+EXPOSE 9090 9000
+ENTRYPOINT ["java","-Xms1024m","-Xmx1024m","-Dserver.port=9090","-Dxxl.job.executor.port=9000","-jar","/app.jar"]
+```
+
+> 在命名一个文件未9091（对应9091端口），内容为：
+
+
+```
+FROM centos
+MAINTAINER zxp
+COPY jdk1.8.0_131 jdk1.8.0_131
+ADD job-excutor-0.0.1-SNAPSHOT.jar app.jar
+ENV JAVA_HOME=/jdk1.8.0_131
+ENV PATH=$JAVA_HOME/bin:$PATH
+ENV CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar
+ENV LANG en_US.UTF-8  
+ENV LANGUAGE en_US:en  
+ENV LC_ALL en_US.UTF-8
+EXPOSE 9091 9001
+ENTRYPOINT ["java","-Xms1024m","-Xmx1024m","-Dserver.port=9091","-Dxxl.job.executor.port=9001","-jar","/app.jar"]
+```
+
+> 如果你有更多的节点，按照这种方式做dockerfile即可
+
+> 然后在创建一个生成镜像的shell文件，并放如同级目录（同理，多个实例也需要调整这个sh文件）：
+
+```
+rm -rf dockerfile
+cp 9090 dockerfile
+docker build -t job9090:latest .
+rm -rf dockerfile
+cp 9091 dockerfile
+docker build -t job9091:latest .
+```
+
+> 最后启动任务执行器容器，注意这里的目录挂载
+
+
+```
+docker run --privileged=true -d -v /root/excel:/root/excel -p 9090:9090 -p 9000:9000 job9090
+docker run --privileged=true -d -v /root/excel:/root/excel -p 9091:9091 -p 9001:9001 job9091
+```
+
+## 第三部分，docker容器日志与elk结合方案
+
+
 未完待续
+
+
 
 # 异常流程处理
 
@@ -311,11 +452,48 @@ public class DemoJobDto extends CsvBaseDto {
 
 ## 非分布式处理excel
 
+> 非分布式处理excel主任务表elastic_job_excel_main.extfield2需要为0，配置方式和分布式方式一致，其中个中所引用的类不一致
+
+
+```
+@Component("excelReadDemoJobDealer")
+//注意这里需要实现ExcelReadIntf接口
+public class ExcelReadDemoJobDealer  implements ExcelReadIntf {
+    private final static Logger logger = LoggerFactory.getLogger(ExcelReadDemoJobDealer.class);
+    @Autowired
+    private DemoJobService demoJobService;
+
+    @Override
+    @ExcelRead(type = ExcelJobType.NDEMO, clazz = DemoJobDto.class)
+    //注意这里需要使用ExcelRead注解
+    public ReturnT<String> deal(DealerCallBackInfo dealerCallBackInfo) {
+        List<DemoJobDto> csvList = dealerCallBackInfo.getCsvList();
+        List<PrpCMainDemo> prpCMainDemos = new ArrayList<PrpCMainDemo>();
+        for (int i = 0; csvList != null && i < csvList.size(); i++) {
+            DemoJobDto dto = csvList.get(i);
+            PrpCMainDemo prpCMainDemo = new PrpCMainDemo();
+            BeanUtils.copyProperties(dto,prpCMainDemo);
+            prpCMainDemos.add(prpCMainDemo);
+        }
+        try {
+            demoJobService.saveAll(prpCMainDemos);
+        } catch (Exception e) {
+            //如果此处捕获异常，可以通过如下方式处理，否则请将异常抛出，框架自动处理
+            //打印异常方式必须为：JobConstant.CSV_AOP_A1（阶段名称） + |UUID=?（有就显示）+ |需要打印的内容
+            String errorInfo = JobConstant.CSV_CUSTOM + "|UUID=" + dealerCallBackInfo.getUuid() + "|保存文件“"+dealerCallBackInfo.getHitFileName()+"”异常："+e.getMessage();
+            dealerCallBackInfo.setErrorInfo(errorInfo);
+            logger.error(errorInfo,e);
+        }
+        return ReturnT.SUCCESS;
+    }
+}
+```
+
+
 ## 拆分子任务自动转储
 
 > elastic_job_excel_sub子任务表再任务完成后会自动转入elastic_job_excel_sub_his表中
 
-## 分布式生成excel的功能……
 
 
 
