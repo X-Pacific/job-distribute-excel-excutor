@@ -20,14 +20,12 @@
 
 1. 你需要先搭建一个xxl-job的环境，这个非常简单，具体参考：http://www.xuxueli.com/xxl-job/#/
 
-2. 你要获得源码项目：**job-excutor**，这是个springboot项目，你当然可以把他轻松改造成springcloud项目，请联系我：zxpdt@163.com
+2. 需要jdk1.8
 
-3. 需要jdk1.8
-
-4. elastic_job_excel_main表是定时任务操作主表，这个表由核心系统创建，核心系统关注的字段如下：
+3. elastic_job_excel_main表是定时任务操作主表，这个表由核心系统创建，核心系统关注的字段如下：
 ![image](https://note.youdao.com/yws/public/resource/71da29d880ebf4c2396c5bd7569299ae/xmlnote/EEDAD2EEAE6F43F795334DFAF0C0D5BE/33035)
 
-5. elastic_job_excel_sub表是拆分excel任务子表，无需开发人员关注，框架自动处理
+4. elastic_job_excel_sub表是拆分excel任务子表，无需开发人员关注，框架自动处理
 
 ## 开发
 
@@ -255,7 +253,7 @@ docker tag IMAGEID(镜像id) mysql
 docker run --privileged=true --name mysql5.7 -p 3306:3306 -v /my/mysql/datadir:/var/lib/mysql -v /my/mysql/conf.d:/etc/mysql/conf.d -e MYSQL_ROOT_PASSWORD=123456 -d mysql:5.7
 ```
 
-> mysql建设好后，需要执行脚本，[点击下载](http://pdv71y0dp.bkt.clouddn.com/xxl-job.sql)
+> mysql建设好后，需要执行脚本，[点击下载](http://pdv71y0dp.bkt.clouddn.com/xxl-job.sql/)
 
 
 
