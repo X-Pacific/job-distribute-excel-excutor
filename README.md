@@ -358,8 +358,67 @@ docker run --privileged=true -d -v /root/excel:/root/excel -p 9091:9091 -p 9001:
 
 ## 第三部分，docker容器日志与elk结合方案
 
+> 参照http://dockone.io/article/2252
 
-未完待续
+
+### 安装docker-compose
+
+```
+curl -L https://github.com/docker/compose/releases/download/1.21.2/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose
+
+chmod +x /usr/local/bin/docker-compose
+
+docker-compose --version
+```
+### 搭建elasticstack
+
+> 我这里使用的版本是5.6.11
+
+> 这里没有使用docker版本的elk，主要的原因：考虑使用已有elk基础设施，另一方面，自己搭建更加灵活
+
+> elasticsearch搭建、kibana正常搭建即可
+
+> logstash搭建需要注意的是：logstash.conf需要指定tcp插件接收docker日志驱动发送的sockit日志，这里的5000是接收日志信息的端口
+
+```
+input {
+   tcp {
+     port => 5000
+   }
+}
+
+filter {
+}
+
+output {
+  elasticsearch {
+  	hosts=>"192.168.0.147:9200"
+  	index => "docker-%{+YYYY.MM.dd}"
+  }
+  stdout{ }
+}
+```
+
+> 启动logstash```nohup sh logstash -f ../config/logstash.conf &```
+
+> 启动docker容器需要调整参数：
+
+> --log-driver=syslog 是以syslog方式打印日志
+
+> --log-opt syslog-address=tcp://192.168.0.147:5000 将日志输出到IP:PORT上，这里就是logstach开放的端口
+
+```
+docker run --log-driver=syslog \
+ --log-opt syslog-address=tcp://192.168.0.147:5000 \
+ --privileged=true -d  -v /root/excel:/root/excel -p 9090:9090 -p 9000:9000 job9090
+```
+
+> 这里也可以使用下面方式启动，docker容器的日志将以json文件的形式存放在硬盘中，位于：/var/lib/docker/containers/容器ID/容器ID-json.log
+
+```
+docker run --log-driver=json-file --log-opt syslog-address=tcp:192.168.0.147:5000 --privileged=true -d  -v /root/excel:/root/excel -p 9090:9090 -p 9000:9000 job9090
+```
+> 通过这种方式可以通过filebeat做文件传递，只是比较麻烦，还需要单独做一个filebeak的容器，不推荐
 
 
 
