@@ -405,13 +405,58 @@ output {
 
 > --log-driver=syslog 是以syslog方式打印日志
 
-> --log-opt syslog-address=tcp://192.168.0.147:5000 将日志输出到IP:PORT上，这里就是logstach开放的端口
+> --log-opt syslog-address=tcp://192.168.0.147:5000 将日志输出到IP:PORT上，这里就是logstash开放的端口
 
 ```
 docker run --log-driver=syslog \
  --log-opt syslog-address=tcp://192.168.0.147:5000 \
  --privileged=true -d  -v /root/excel:/root/excel -p 9090:9090 -p 9000:9000 job9090
 ```
+
+> 如果此处logstash发生大量阻塞情况，可以考虑在elasticstack中添加kafka作为HA方案，这里我列出双Logstash的配置作为参考
+
+
+```
+#L1
+input {
+   tcp {
+     port => 5000
+   }
+}
+
+filter {
+}
+
+output {
+  kafka {
+ 		bootstrap_servers => "192.168.0.147:9092,192.168.0.147:9093"
+		topic_id => "dockerTopic"
+  }
+}
+#L2
+input {
+   kafka {
+     bootstrap_servers => "192.168.0.147:9092,192.168.0.147:9093"
+     topics => ["dockerTopic"]
+  	 auto_offset_reset => "latest"
+  	 consumer_threads => 5
+   }
+}
+
+filter {
+}
+
+output {
+  elasticsearch {
+  	hosts=>"192.168.0.147:9200"
+  	index => "dok-%{+YYYY.MM.dd}"
+  }
+  stdout{ }
+}
+```
+
+
+
 
 > 这里也可以使用下面方式启动，docker容器的日志将以json文件的形式存放在硬盘中，位于：/var/lib/docker/containers/容器ID/容器ID-json.log
 
