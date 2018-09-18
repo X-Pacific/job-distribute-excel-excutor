@@ -23,22 +23,22 @@
 2. 需要jdk1.8
 
 3. elastic_job_excel_main表是定时任务操作主表，这个表由核心系统创建，核心系统关注的字段如下：
-![image](https://note.youdao.com/yws/public/resource/71da29d880ebf4c2396c5bd7569299ae/xmlnote/EEDAD2EEAE6F43F795334DFAF0C0D5BE/33035)
+![image](http://pdv71y0dp.bkt.clouddn.com/1.png)
 
 4. elastic_job_excel_sub表是拆分excel任务子表，无需开发人员关注，框架自动处理
 
 ## 开发
 
-1. 我们需要重点关注：com.sinosoft.jobexcutor.jobhandler这个包
+1. 我们需要重点关注：org.zxp.jobexcutor.jobhandler这个包
 
-> com.sinosoft.jobexcutor.jobhandler.handler xxl-job的任务入口类
-> com.sinosoft.jobexcutor.jobhandler.callback 回调的类在这里
-> com.sinosoft.jobexcutor.jobhandler.dealer 分布式excel处理类
-> com.sinosoft.jobexcutor.jobhandler.split 拆分excel文件（这个不用管）
+> org.zxp.jobexcutor.jobhandler.handler xxl-job的任务入口类
+> org.zxp.jobexcutor.jobhandler.callback 回调的类在这里
+> org.zxp.jobexcutor.jobhandler.dealer 分布式excel处理类
+> org.zxp.jobexcutor.jobhandler.split 拆分excel文件（这个不用管）
 
 2. 我们现在开始添加一项任务的入口，并着手编写业务代码吧：
 
-3. com.sinosoft.jobexcutor.jobhandler.handler包中存放的是xxl的handler，在这里创建一个类，类的头部所配置的@JobHandler(value="excelDistributedReadDemoJobHandler")是这个job的名字，这个名字需要配置到xxl-admin（注册中心）中。这个类需要注入一个dealer包中的处理服务，这个服务需要实现ExcelDistributedReadIntf<T>这个接口
+3. org.zxp.jobexcutor.jobhandler.handler包中存放的是xxl的handler，在这里创建一个类，类的头部所配置的@JobHandler(value="excelDistributedReadDemoJobHandler")是这个job的名字，这个名字需要配置到xxl-admin（注册中心）中。这个类需要注入一个dealer包中的处理服务，这个服务需要实现ExcelDistributedReadIntf<T>这个接口
 
 
 ```
@@ -106,7 +106,7 @@ public ReturnT<String> deal(ShardingUtil.ShardingVO shardingVO,DealerCallBackInf
 private String aaa;
 ```
 
-> 注意：请把pojo放入com.sinosoft.jobexcutor.csvdto包中
+> 注意：请把pojo放入org.zxp.jobexcutor.csvdto包中
 
 
 5. 随后就可以在方法内写业务逻辑了
@@ -168,15 +168,15 @@ public class ExcelDistributeReadDemoCallBack implements ExcelDistributedCallBack
 
 # 关于使用excel分布式处理组件的规范
 
-> 1. 接入xxl-job的子任务入口必须放入：com.sinosoft.jobexcutor.jobhandler.handler包下
+> 1. 接入xxl-job的子任务入口必须放入：org.zxp.jobexcutor.jobhandler.handler包下
 > 
-> 1. handler调用的处理类（这里主要指使用本框架封装的分布式处理excel的方式）必须放入：com.sinosoft.jobexcutor.jobhandler.dealer，并且命名为*Dealer，同时需要实现ExcelDistributedReadIntf接口并使用ExcelDistributedRead注解，否则无法赋予分布式处理的能力
+> 1. handler调用的处理类（这里主要指使用本框架封装的分布式处理excel的方式）必须放入：org.zxp.jobexcutor.jobhandler.dealer，并且命名为*Dealer，同时需要实现ExcelDistributedReadIntf接口并使用ExcelDistributedRead注解，否则无法赋予分布式处理的能力
 >  
-> 1. 回调回写的处理类必须放入com.sinosoft.jobexcutor.jobhandler.callback包下，并实现ExcelDistributedCallBackIntf接口，否则无法自动回调
+> 1. 回调回写的处理类必须放入org.zxp.jobexcutor.jobhandler.callback包下，并实现ExcelDistributedCallBackIntf接口，否则无法自动回调
 > 
-> 1. 数据库实体类必须放入：com.sinosoft.jobexcutor.entity包，mybatis的mapper xml文件必须放入：com.sinosoft.jobexcutor.entity.xml包，这里推荐使用mybatis-generator:generate -X 插件自动生成基础类，对应配置文件位于：resources/mybatis-generator/generatorConfig.xml
+> 1. 数据库实体类必须放入：org.zxp.jobexcutor.entity包，mybatis的mapper xml文件必须放入：org.zxp.jobexcutor.entity.xml包，这里推荐使用mybatis-generator:generate -X 插件自动生成基础类，对应配置文件位于：resources/mybatis-generator/generatorConfig.xml
 > 
-> 1. excel对应的实体类必须放入：com.sinosoft.jobexcutor.csvdto包中，并可以通过CsvHead注解来匹配excel表头的内容
+> 1. excel对应的实体类必须放入：org.zxp.jobexcutor.csvdto包中，并可以通过CsvHead注解来匹配excel表头的内容
 >
 > 1. 打印异常方式必须为：JobConstant.CSV_AOP_A1（阶段名称） + |UUID=?（有就显示）+ |需要打印的内容
 
@@ -186,12 +186,12 @@ public class ExcelDistributeReadDemoCallBack implements ExcelDistributedCallBack
 
 > 你需要先配置一个拆分excel的任务，你需要注意的是cron自定义定时间隔、JobHandler需要固定配置为ESJH，路由策略建议设置为“一致性hash”
 
-![image](https://note.youdao.com/yws/public/resource/71da29d880ebf4c2396c5bd7569299ae/xmlnote/F9B363BAFFD64C9F88D523A65241C160/33087)
+![image](http://pdv71y0dp.bkt.clouddn.com/2.png)
 
 
 > 在来配置刚刚写好的任务，你需要注意的是路由策略必须设置为：分片广播、cron自定义定时间隔、JobHandler是你在handler类注解上定义的内容
 
-![image](https://note.youdao.com/yws/public/resource/71da29d880ebf4c2396c5bd7569299ae/xmlnote/FACB0A0A545D4174A3404BC4115B669A/33101)
+![image](http://pdv71y0dp.bkt.clouddn.com/3.png)
 
 > 至此就完成全部的内容
 
