@@ -11,7 +11,7 @@
 
 ## 实现架构图
 
-![image](http://pdv71y0dp.bkt.clouddn.com/TIM%E6%88%AA%E5%9B%BE20180914170154.png)
+![image](http://www.zxporz.cn/4.png)
 
 
 # STARTER
@@ -23,7 +23,7 @@
 2. 需要jdk1.8
 
 3. elastic_job_excel_main表是定时任务操作主表，这个表由核心系统创建，核心系统关注的字段如下：
-![image](http://pdv71y0dp.bkt.clouddn.com/1.png)
+![image](http://www.zxporz.cn/1.png)
 
 4. elastic_job_excel_sub表是拆分excel任务子表，无需开发人员关注，框架自动处理
 
@@ -186,12 +186,12 @@ public class ExcelDistributeReadDemoCallBack implements ExcelDistributedCallBack
 
 > 你需要先配置一个拆分excel的任务，你需要注意的是cron自定义定时间隔、JobHandler需要固定配置为ESJH，路由策略建议设置为“一致性hash”
 
-![image](http://pdv71y0dp.bkt.clouddn.com/2.png)
+![image](http://www.zxporz.cn/2.png)
 
 
 > 在来配置刚刚写好的任务，你需要注意的是路由策略必须设置为：分片广播、cron自定义定时间隔、JobHandler是你在handler类注解上定义的内容
 
-![image](http://pdv71y0dp.bkt.clouddn.com/3.png)
+![image](http://www.zxporz.cn/3.png)
 
 > 至此就完成全部的内容
 
@@ -253,7 +253,7 @@ docker tag IMAGEID(镜像id) mysql
 docker run --privileged=true --name mysql5.7 -p 3306:3306 -v /my/mysql/datadir:/var/lib/mysql -v /my/mysql/conf.d:/etc/mysql/conf.d -e MYSQL_ROOT_PASSWORD=123456 -d mysql:5.7
 ```
 
-> mysql建设好后，需要执行脚本，[点击下载](http://pdv71y0dp.bkt.clouddn.com/xxl-job.sql/)
+> mysql建设好后，需要执行脚本，[点击下载](http://www.zxporz.cn/xxl-job.sql)
 
 
 
